@@ -12,5 +12,22 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Hello World!"
+        android:id="@+id/Test"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/completedDeliveries"
+        android:layout_below="@id/Test"
+        android:text="" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/remainingDeliveries"
+        android:layout_below="@id/Test"
+        android:layout_alignRight="@id/completedDeliveries"
+        android:text="" />
+
 </RelativeLayout>

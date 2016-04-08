@@ -2,14 +2,20 @@ package hu.tomkom.deliveryapp.ui.main;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.R;
 
 public class MainActivity extends AppCompatActivity implements MainScreen{
+
+    @Bind(R.id.remainingDeliveries) TextView remainingDeliveries;
+    @Bind(R.id.completedDeliveries) TextView completedDeliveries;
 
     @Inject
     MainPresenter mainPresenter;
@@ -19,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DeliveryApplication.injector.inject(this);
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -30,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements MainScreen{
     @Override
     protected void onResume() {
         super.onResume();
-        mainPresenter.eventTest();
     }
 
     @Override
@@ -42,5 +48,11 @@ public class MainActivity extends AppCompatActivity implements MainScreen{
     @Override
     public void showGreeting() {
         Toast.makeText(getApplicationContext(), "Cica", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setDeliveryNumbers(int completed, int remaining) {
+        completedDeliveries.setText(completed);
+        remainingDeliveries.setText(remaining);
     }
 }

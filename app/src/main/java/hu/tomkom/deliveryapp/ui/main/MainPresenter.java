@@ -7,10 +7,8 @@ public class MainPresenter extends Presenter<MainScreen> {
     @Override
     public void attachScreen(MainScreen screen) {
         super.attachScreen(screen);
-    }
-
-    public void eventTest(){
         screen.showGreeting();
+        screen.setDeliveryNumbers(4,2);
     }
 
 }
