@@ -1,7 +1,9 @@
-package hu.tomkom.deliveryapp;
+package hu.tomkom.deliveryapp.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import hu.tomkom.deliveryapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
