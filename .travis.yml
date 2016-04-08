@@ -15,7 +15,6 @@ android:
         - sys-img-armeabi-v7a-android-21
 deploy:
     provider: releases
-    script: ./gradlew :app:build
     apikey: $GITHUB_KEY
     file: app/build/outputs/apk/app-release.apk
     skip_cleanup: true
@@ -28,3 +27,5 @@ notifications:
         - adam.tomko@gmail.com
         on_success: always
         on_failure: always
+
+script: ./gradlew :app:build
