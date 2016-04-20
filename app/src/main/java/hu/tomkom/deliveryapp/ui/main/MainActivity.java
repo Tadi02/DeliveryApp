@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen{
 
     @Override
     public void setDeliveryNumbers(int completed, int remaining) {
-        completedDeliveries.setText(completed);
-        remainingDeliveries.setText(remaining);
+        completedDeliveries.setText(String.valueOf(completed));
+        remainingDeliveries.setText(String.valueOf(remaining));
     }
 }
