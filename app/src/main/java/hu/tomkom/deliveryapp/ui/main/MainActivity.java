@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.R;
+import hu.tomkom.deliveryapp.model.Delivery;
 
 public class MainActivity extends AppCompatActivity implements MainScreen{
 
@@ -54,5 +57,10 @@ public class MainActivity extends AppCompatActivity implements MainScreen{
     public void setDeliveryNumbers(int completed, int remaining) {
         completedDeliveries.setText(String.valueOf(completed));
         remainingDeliveries.setText(String.valueOf(remaining));
+    }
+
+    @Override
+    public void showTodaysDeliveries(List<Delivery> deliveries) {
+
     }
 }

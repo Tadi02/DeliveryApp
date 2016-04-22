@@ -29,13 +29,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Dagger 2 and Compiler
-    compile "com.google.dagger:dagger-compiler:2.0.1"
-    compile 'com.google.dagger:dagger:2.0.1'
     apt "com.google.dagger:dagger-compiler:2.0.1"
     // Required for @Generated annotation (missing in Java <= 1.6; therefore, Android)
     provided 'javax.annotation:jsr250-api:1.0'
-
-    compile 'com.jakewharton:butterknife:7.0.1'
 
     //Dagger
     testCompile 'com.google.dagger:dagger-compiler:2.0.1'
@@ -44,5 +40,9 @@ dependencies {
     testCompile 'javax.annotation:jsr250-api:1.0'
 
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.google.dagger:dagger-compiler:2.0.1'
+    compile 'com.google.dagger:dagger:2.0.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
 }
