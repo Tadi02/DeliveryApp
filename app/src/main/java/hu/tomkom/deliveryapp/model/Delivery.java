@@ -8,7 +8,9 @@ public class Delivery {
 
     private String phone;
 
-    private RentStatus status;
+    private DeliveryType type;
+
+    private boolean completed;
 
     private String time;
 
@@ -38,12 +40,20 @@ public class Delivery {
         this.phone = phone;
     }
 
-    public RentStatus getStatus() {
-        return status;
+    public DeliveryType getType() {
+        return type;
     }
 
-    public void setStatus(RentStatus status) {
-        this.status = status;
+    public void setType(DeliveryType type) {
+        this.type = type;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     public String getTime() {
