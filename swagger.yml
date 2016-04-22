@@ -1,0 +1,211 @@
+swagger: '2.0'
+
+info:
+  version: "0.1.0"
+  title: Delivery API
+  description: Delivery application API documentation
+
+paths:
+  /delivery/{date}:
+    get:
+      operationId: fetchDeliveries
+      tags:
+        - Delivery
+      description: Fetches deliveries for a specific date format.
+      parameters:
+        - name: date
+          in: path
+          description: Date in yyyy-mm-dd format
+          required: true
+          type: string
+
+      responses:
+        200:
+          description: Array of deliveries
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Delivery"
+        400:
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              "error":
+                type: string
+                description: "Error message"
+                
+  /delivery/{id}/done:
+    post:
+      operationId: markdDeliveryDone
+      tags:
+        - Delivery
+      description: Marks the delivery with the given id done
+      parameters:
+        - name: id
+          in: path
+          description: Delivery id
+          required: true
+          type: string
+
+      responses:
+        200:
+          description: Array of deliveries
+          
+        400:
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              "error":
+                type: string
+                description: "Error message"              
+                
+  /rent/{id}:
+    get:
+      operationId: fetchRent
+      tags:
+        - Rent
+      description: Fetches rent for given id
+      parameters:
+        - name: id
+          in: path
+          description: Rent id
+          required: true
+          type: string
+
+      responses:
+        200:
+          description: Rent result
+          schema:
+            $ref: "#/definitions/Rent"
+              
+        400:
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              "error":
+                type: string
+                description: "Error message"
+    
+  /rent/{id}/comment:
+    post:
+      operationId: addComment
+      tags:
+        - Rent
+        - Comment
+      description: Adds a new comment
+      parameters:
+        - name: id
+          in: path
+          description: Rent id
+          required: true
+          type: string
+        - name: comment
+          in: body
+          description: New comment
+          required: true
+          schema:
+            type: object
+            properties:
+              "time":
+                type: string
+              "text":
+                type: string
+
+      responses:
+        200:
+          description: Rent with the added comment
+          schema:
+            $ref: "#/definitions/Rent"
+              
+        400:
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              "error":
+                type: string
+                description: "Error message"
+                
+  /rent/{id}/comment/{commentId}:
+    delete:
+      operationId: removeComment
+      tags:
+        - Rent
+        - Comment
+      description: Removes a comment
+      parameters:
+        - name: id
+          in: path
+          description: Rent id
+          required: true
+          type: string
+        - name: commentId
+          in: path
+          description: Comment id
+          required: true
+          type: string
+
+      responses:
+        200:
+          description: Rent without the removed comment
+          schema:
+            $ref: "#/definitions/Rent"
+              
+        400:
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              "error":
+                type: string
+                description: "Error message"                  
+
+definitions:
+  Comment:
+    type: object
+    properties:
+      "id":
+        type: string
+      "time":
+        type: string
+      "text":
+        type: string
+
+  Delivery:
+    type: object
+    properties:
+      "id":
+        type: string
+      "name":
+        type: string
+      "address":
+        type: string
+      "phone":
+        type: string
+      "type":
+        type: string
+      "completed":
+        type: boolean
+      "time":
+        type: string
+      "rentId":
+        type: string
+
+  Rent:
+    type: object
+    properties:
+      "id":
+        type: string
+      "start":
+        type: string
+      "end":
+        type: string
+      "status":
+        type: string
+      "comments":
+        type: array
+        items: 
+          $ref: "#/definitions/Comment"

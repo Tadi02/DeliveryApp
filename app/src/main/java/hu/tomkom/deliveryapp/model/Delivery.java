@@ -2,6 +2,8 @@ package hu.tomkom.deliveryapp.model;
 
 public class Delivery {
 
+    private String id;
+
     private String name;
 
     private String address;
@@ -15,6 +17,14 @@ public class Delivery {
     private String time;
 
     private String rentId;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
