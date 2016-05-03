@@ -3,13 +3,17 @@ package hu.tomkom.deliveryapp;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import hu.tomkom.deliveryapp.interactor.InteractorModule;
 import hu.tomkom.deliveryapp.ui.UIModule;
 import hu.tomkom.deliveryapp.ui.delivery.DeliveryActivity;
+import hu.tomkom.deliveryapp.ui.delivery.DeliveryPresenter;
 import hu.tomkom.deliveryapp.ui.main.MainActivity;
+import hu.tomkom.deliveryapp.ui.main.MainPresenter;
 import hu.tomkom.deliveryapp.ui.rent.RentActivity;
+import hu.tomkom.deliveryapp.ui.rent.RentPresenter;
 
 @Singleton
-@Component(modules = {UIModule.class})
+@Component(modules = {UIModule.class, InteractorModule.class})
 public interface DeliveryApplicationComponent {
 
     void inject(MainActivity mainActivity);
@@ -17,5 +21,11 @@ public interface DeliveryApplicationComponent {
     void inject(DeliveryActivity deliveryActivity);
 
     void inject(RentActivity rentActivity);
+
+    void inject(DeliveryPresenter deliveryPresenter);
+
+    void inject(MainPresenter mainPresenter);
+
+    void inject(RentPresenter rentPresenter);
 
 }

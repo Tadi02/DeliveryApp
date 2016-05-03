@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.interactor.delivery.DeliveryInteractor;
 import hu.tomkom.deliveryapp.model.Delivery;
 import hu.tomkom.deliveryapp.ui.Presenter;
@@ -12,6 +13,10 @@ public class MainPresenter extends Presenter<MainScreen> {
 
     @Inject
     DeliveryInteractor deliveryInteractor;
+
+    public MainPresenter() {
+        DeliveryApplication.injector.inject(this);
+    }
 
     @Override
     public void attachScreen(MainScreen screen) {
