@@ -11,6 +11,4 @@ public interface RentScreen {
 
     void showComments(List<Comment> comments);
 
-    void showCommentDialog();
-
 }

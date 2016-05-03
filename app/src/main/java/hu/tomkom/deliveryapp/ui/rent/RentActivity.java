@@ -31,6 +31,12 @@ public class RentActivity extends AppCompatActivity implements RentScreen {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        rentPresenter.fetchData();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         rentPresenter.detachScreen();
@@ -43,11 +49,6 @@ public class RentActivity extends AppCompatActivity implements RentScreen {
 
     @Override
     public void showComments(List<Comment> comments) {
-
-    }
-
-    @Override
-    public void showCommentDialog() {
 
     }
 }

@@ -37,6 +37,12 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        deliveryPresenter.fetchData();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         deliveryPresenter.detachScreen();
