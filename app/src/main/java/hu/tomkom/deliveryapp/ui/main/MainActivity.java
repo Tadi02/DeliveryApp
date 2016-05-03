@@ -40,17 +40,13 @@ public class MainActivity extends AppCompatActivity implements MainScreen{
     @Override
     protected void onResume() {
         super.onResume();
+        mainPresenter.fetchData();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         mainPresenter.detachScreen();
-    }
-
-    @Override
-    public void showGreeting() {
-        Toast.makeText(getApplicationContext(), "Cica", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -63,4 +59,11 @@ public class MainActivity extends AppCompatActivity implements MainScreen{
     public void showTodaysDeliveries(List<Delivery> deliveries) {
 
     }
+
+    @Override
+    public void navigateToDetails(String id) {
+
+    }
+
+
 }

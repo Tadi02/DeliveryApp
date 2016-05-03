@@ -10,4 +10,6 @@ public interface MainScreen {
 
     void showTodaysDeliveries(List<Delivery> deliveries);
 
+    void navigateToDetails(String id);
+
 }
