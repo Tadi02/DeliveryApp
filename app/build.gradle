@@ -20,6 +20,18 @@ android {
         }
     }
 
+    productFlavors {
+        dev {
+            applicationId "hu.tomkom.deliveryapp.dev"
+            versionName "1.0-dev"
+        }
+        full {
+            applicationId "hu.tomkom.deliveryapp.full"
+            versionName "1.0-full"
+        }
+    }
+
+
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
