@@ -23,7 +23,7 @@ public class DeliveryInteractor {
         return null;
     }
 
-    public void markDeliveryCompleted(){
+    public void markDeliveryCompleted(String id){
 
     }
 
