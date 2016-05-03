@@ -1,11 +1,10 @@
 package hu.tomkom.deliveryapp;
 
-
-import android.app.Application;
+import com.orm.SugarApp;
 
 import hu.tomkom.deliveryapp.ui.UIModule;
 
-public class DeliveryApplication extends Application {
+public class DeliveryApplication extends SugarApp {
 
     public static DeliveryApplicationComponent injector;
 

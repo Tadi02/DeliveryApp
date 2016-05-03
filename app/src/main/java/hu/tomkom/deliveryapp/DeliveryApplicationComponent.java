@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import hu.tomkom.deliveryapp.interactor.InteractorModule;
+import hu.tomkom.deliveryapp.interactor.delivery.DeliveryInteractor;
 import hu.tomkom.deliveryapp.ui.UIModule;
 import hu.tomkom.deliveryapp.ui.delivery.DeliveryActivity;
 import hu.tomkom.deliveryapp.ui.delivery.DeliveryPresenter;
@@ -27,5 +28,7 @@ public interface DeliveryApplicationComponent {
     void inject(MainPresenter mainPresenter);
 
     void inject(RentPresenter rentPresenter);
+
+    void inject(DeliveryInteractor deliveryInteractor);
 
 }

@@ -21,6 +21,12 @@
             android:label="@string/title_activity_delivery"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.rent.RentActivity"></activity>
+
+        <meta-data android:name="DATABASE" android:value="delivery.db" />
+        <meta-data android:name="VERSION" android:value="2" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="hu.tomkom.deliveryapp.model" />
+
     </application>
 
 </manifest>

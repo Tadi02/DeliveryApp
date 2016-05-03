@@ -15,3 +15,6 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Ensures entities remain un-obfuscated so table and columns are named correctly
+-keep class hu.tomkom.deliveryapp.model.** { *; }

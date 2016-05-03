@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.model.Delivery;
 
 public class DeliveryInteractor {
 
+    @Inject
+    StorageInteractor storageInteractor;
+
     private boolean networkAvailable = false;
+
+    public DeliveryInteractor() {
+        DeliveryApplication.injector.inject(this);
+    }
 
     public List<Delivery> fetchTodaysDeliveries(){
         if(networkAvailable){
@@ -17,7 +26,7 @@ public class DeliveryInteractor {
             saveTodaysDeliveries(deliveries);
             return deliveries;
         }else{
-            return new ArrayList<>();
+            return storageInteractor.fetchDeliveries();
         }
     }
 
@@ -30,7 +39,7 @@ public class DeliveryInteractor {
     }
 
     private void saveTodaysDeliveries(List<Delivery> deliveries){
-
+        storageInteractor.saveDeliveries(deliveries);
     }
 
 }
