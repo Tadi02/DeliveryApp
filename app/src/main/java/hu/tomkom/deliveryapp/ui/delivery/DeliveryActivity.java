@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,7 +48,13 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
     }
 
     @Override
-    public void navigateToRentScreen() {
+    public void navigateToDetails(String id) {
 
     }
+
+    @Override
+    public void showDate(Date date) {
+
+    }
+
 }
