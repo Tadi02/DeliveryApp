@@ -1,11 +1,9 @@
 <resources>
-    <string name="app_name">DeliveryApp</string>
+    <string name="app_name">Szállító App</string>
     <string name="title_activity_delivery">Delivery</string>
-    <string name="drawer_open">Navigáció megnyitása</string>
-    <string name="drawer_close">Navigáció bezárása</string>
-    <string name="action_settings">Beállítások</string>
-    <string name="title_activity_test">TestActivity</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Navigáció megnyitása</string>
+    <string name="navigation_drawer_close">Navigáció bezárása</string>
+    <string name="deliveries">Szállítások</string>
+    <string name="todays_deliveries">Mai szállítások</string>
+    <string name="author">Tomkó Ádám - BBVGP6</string>
 </resources>

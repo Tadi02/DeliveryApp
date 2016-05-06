@@ -36,11 +36,6 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="hu.tomkom.deliveryapp.model" />
 
-        <activity
-            android:name=".ui.TestActivity"
-            android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
     </application>
 
 </manifest>
