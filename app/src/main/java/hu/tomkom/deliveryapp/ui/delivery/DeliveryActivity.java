@@ -19,8 +19,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,16 +34,15 @@ import butterknife.ButterKnife;
 import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.R;
 import hu.tomkom.deliveryapp.model.Delivery;
+import hu.tomkom.deliveryapp.ui.DeliveryListAdapter;
 import hu.tomkom.deliveryapp.ui.main.MainActivity;
 
 public class DeliveryActivity extends AppCompatActivity implements DeliveryScreen, NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.todayList) ListView todayList;
 
     @Inject
     DeliveryPresenter deliveryPresenter;
@@ -55,6 +56,26 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
         setContentView(R.layout.activity_delivery);
         DeliveryApplication.injector.inject(this);
         ButterKnife.bind(this);
+
+        DeliveryListAdapter adapter = new DeliveryListAdapter(this);
+        todayList.setAdapter(adapter);
+        List<Delivery> test = new ArrayList<>();
+        Delivery d = new Delivery();
+        d.setName("Cica Bt.");
+        d.setAddress("Máté utca 4.");
+        d.setPhone("+36 30 548 6684");
+        d.setCompleted(false);
+        d.setTime("12:00");
+        test.add(d);
+        Delivery d2 = new Delivery();
+        d2.setName("Big money Kft.");
+        d2.setAddress("Kalap utca 4.");
+        d2.setPhone("+36 30 999 6684");
+        d2.setCompleted(true);
+        d2.setTime("13:00");
+        test.add(d2);
+        adapter.setItems(test);
+
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
