@@ -27,6 +27,7 @@ public class DeliveryPresenter extends Presenter<DeliveryScreen> {
     }
 
     public void fetchData(){
+        this.screen.showDate(date);
         this.screen.showDeliveries(deliveryInteractor.fetchDeliveriesForDate(this.date));
     }
 

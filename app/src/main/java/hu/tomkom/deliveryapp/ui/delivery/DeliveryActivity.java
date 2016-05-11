@@ -1,19 +1,27 @@
 package hu.tomkom.deliveryapp.ui.delivery;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,14 +34,20 @@ import hu.tomkom.deliveryapp.R;
 import hu.tomkom.deliveryapp.model.Delivery;
 import hu.tomkom.deliveryapp.ui.main.MainActivity;
 
-public class DeliveryActivity extends AppCompatActivity implements DeliveryScreen,  NavigationView.OnNavigationItemSelectedListener  {
+public class DeliveryActivity extends AppCompatActivity implements DeliveryScreen, NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
 
     @Inject
     DeliveryPresenter deliveryPresenter;
+
+    private Date date;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +93,8 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
 
     @Override
     public void showDate(Date date) {
-
+        this.date = date;
+        setTitle(getString(R.string.delivieries) + " " + simpleDateFormat.format(date));
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -105,4 +120,44 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
         getMenuInflater().inflate(R.menu.delivery, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.changeDate:
+                DialogFragment newFragment = new DatePickerFragment();
+                Bundle bundle = new Bundle();
+                bundle.putLong("date", date.getTime());
+                newFragment.setArguments(bundle);
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void dateChanged(Date date){
+        deliveryPresenter.setDate(date);
+    }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date(this.getArguments().getLong("date")));
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            DeliveryActivity activity = (DeliveryActivity)this.getActivity();
+            activity.dateChanged(new Date(year,month,day));
+        }
+    }
+
+
 }
