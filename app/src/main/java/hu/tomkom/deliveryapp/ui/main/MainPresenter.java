@@ -34,8 +34,8 @@ public class MainPresenter extends Presenter<MainScreen> {
         fetchData();
     }
 
-    public void listItemClicked(){
-        screen.navigateToDetails("");
+    public void listItemClicked(String id){
+        screen.navigateToDetails(id);
     }
 
     private void calculateNumbers(List<Delivery> deliveries){

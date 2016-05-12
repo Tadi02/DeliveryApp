@@ -35,9 +35,11 @@ import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.R;
 import hu.tomkom.deliveryapp.model.Delivery;
 import hu.tomkom.deliveryapp.ui.DeliveryListAdapter;
+import hu.tomkom.deliveryapp.ui.DeliveryListEventHandler;
 import hu.tomkom.deliveryapp.ui.main.MainActivity;
+import hu.tomkom.deliveryapp.ui.rent.RentActivity;
 
-public class DeliveryActivity extends AppCompatActivity implements DeliveryScreen, NavigationView.OnNavigationItemSelectedListener {
+public class DeliveryActivity extends AppCompatActivity implements DeliveryScreen, DeliveryListEventHandler, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.nav_view) NavigationView navigationView;
@@ -57,7 +59,7 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
         DeliveryApplication.injector.inject(this);
         ButterKnife.bind(this);
 
-        DeliveryListAdapter adapter = new DeliveryListAdapter(this);
+        DeliveryListAdapter adapter = new DeliveryListAdapter(this, this);
         todayList.setAdapter(adapter);
         List<Delivery> test = new ArrayList<>();
         Delivery d = new Delivery();
@@ -109,7 +111,9 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
 
     @Override
     public void navigateToDetails(String id) {
-
+        Intent intent = new Intent(this, RentActivity.class);
+        intent.putExtra("rentId", id);
+        startActivity(intent);
     }
 
     @Override
@@ -160,6 +164,16 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
 
     public void dateChanged(Date date){
         deliveryPresenter.setDate(date);
+    }
+
+    @Override
+    public void itemClicked(String id) {
+        deliveryPresenter.listItemClicked(id);
+    }
+
+    @Override
+    public void butonPressed(String id) {
+        deliveryPresenter.markDeliveryCompleted(id);
     }
 
     public static class DatePickerFragment extends DialogFragment

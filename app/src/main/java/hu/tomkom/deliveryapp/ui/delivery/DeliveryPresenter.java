@@ -35,8 +35,8 @@ public class DeliveryPresenter extends Presenter<DeliveryScreen> {
         deliveryInteractor.markDeliveryCompleted(id);
     }
 
-    public void listItemClicked(){
-        screen.navigateToDetails("");
+    public void listItemClicked(String id){
+        screen.navigateToDetails(id);
     }
 
 }

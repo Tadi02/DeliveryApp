@@ -13,7 +13,7 @@ public class RentPresenter extends Presenter<RentScreen> {
     @Inject
     RentInteractor rentInteractor;
 
-    private String rentId = "";
+    private String rentId;
 
     public RentPresenter() {
         DeliveryApplication.injector.inject(this);
@@ -21,8 +21,10 @@ public class RentPresenter extends Presenter<RentScreen> {
 
     public void fetchData(){
         Rent rent = rentInteractor.fetchRent(rentId);
-        screen.showRentData(rent);
-        screen.showComments(rent.getComments());
+        if(rent != null) {
+            screen.showRentData(rent);
+            screen.showComments(rent.getComments());
+        }
     }
 
     public void addComment(Comment comment){
@@ -35,4 +37,7 @@ public class RentPresenter extends Presenter<RentScreen> {
         fetchData();
     }
 
+    public void setRentId(String rentId) {
+        this.rentId = rentId;
+    }
 }

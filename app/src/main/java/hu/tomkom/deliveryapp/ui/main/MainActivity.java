@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
@@ -23,9 +25,11 @@ import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.R;
 import hu.tomkom.deliveryapp.model.Delivery;
 import hu.tomkom.deliveryapp.ui.DeliveryListAdapter;
+import hu.tomkom.deliveryapp.ui.DeliveryListEventHandler;
 import hu.tomkom.deliveryapp.ui.delivery.DeliveryActivity;
+import hu.tomkom.deliveryapp.ui.rent.RentActivity;
 
-public class MainActivity extends AppCompatActivity implements MainScreen, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements MainScreen, DeliveryListEventHandler, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.remainingDeliveries) TextView remainingDeliveries;
     @BindView(R.id.completedDeliveries) TextView completedDeliveries;
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Navig
         setContentView(R.layout.activity_main);
         DeliveryApplication.injector.inject(this);
         ButterKnife.bind(this);
-        DeliveryListAdapter adapter = new DeliveryListAdapter(this);
+        DeliveryListAdapter adapter = new DeliveryListAdapter(this, this);
         todayList.setAdapter(adapter);
         List<Delivery> test = new ArrayList<>();
         Delivery d = new Delivery();
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Navig
         d.setPhone("+36 30 548 6684");
         d.setCompleted(false);
         d.setTime("12:00");
+        d.setRentId("2A");
         test.add(d);
         Delivery d2 = new Delivery();
         d2.setName("Big money Kft.");
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Navig
         d2.setPhone("+36 30 999 6684");
         d2.setCompleted(true);
         d2.setTime("13:00");
+        d2.setRentId("2B");
         test.add(d2);
         adapter.setItems(test);
 
@@ -101,7 +107,9 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Navig
 
     @Override
     public void navigateToDetails(String id) {
-
+        Intent intent = new Intent(this, RentActivity.class);
+        intent.putExtra("rentId", id);
+        startActivity(intent);
     }
 
     @Override
@@ -114,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Navig
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -130,5 +137,15 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Navig
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void itemClicked(String id) {
+        mainPresenter.listItemClicked(id);
+    }
+
+    @Override
+    public void butonPressed(String id) {
+        mainPresenter.markDeliveryCompleted(id);
     }
 }

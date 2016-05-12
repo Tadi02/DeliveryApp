@@ -22,9 +22,11 @@ public class DeliveryListAdapter extends BaseAdapter {
     List<Delivery> items = new ArrayList<>();
 
     LayoutInflater inflater;
+    DeliveryListEventHandler eventHandler;
 
-    public DeliveryListAdapter(Activity activity) {
+    public DeliveryListAdapter(Activity activity, DeliveryListEventHandler eventHandler) {
         this.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.eventHandler = eventHandler;
     }
 
     public void setItems(List<Delivery> items){
@@ -57,7 +59,7 @@ public class DeliveryListAdapter extends BaseAdapter {
             view.setTag(holder);
         }
 
-        Delivery delivery = getItem(position);
+        final Delivery delivery = getItem(position);
 
         holder.name.setText(delivery.getName());
         holder.address.setText(delivery.getAddress());
@@ -68,7 +70,20 @@ public class DeliveryListAdapter extends BaseAdapter {
             holder.completeButton.setEnabled(false);
         }else{
             holder.completeButton.setEnabled(true);
+            holder.completeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    eventHandler.butonPressed(String.valueOf(delivery.getId()));
+                }
+            });
         }
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eventHandler.itemClicked(delivery.getRentId());
+            }
+        });
 
         return view;
     }

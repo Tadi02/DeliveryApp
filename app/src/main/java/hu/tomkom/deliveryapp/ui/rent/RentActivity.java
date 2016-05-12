@@ -28,6 +28,7 @@ public class RentActivity extends AppCompatActivity implements RentScreen {
     protected void onStart() {
         super.onStart();
         rentPresenter.attachScreen(this);
+        rentPresenter.setRentId(getIntent().getExtras().getString("rentId"));
     }
 
     @Override
