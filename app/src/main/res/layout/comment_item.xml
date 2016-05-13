@@ -7,17 +7,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/itemCustomerData"
-        android:paddingTop="6dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="15dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/itemName"
+            android:id="@+id/commentDate"
             android:text="2016/03/24 12:45" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/itemContact"
+            android:id="@+id/commentText"
             android:paddingTop="5dp"
             android:text="Something was forgotten."/>
     </LinearLayout>
@@ -33,9 +34,9 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/itemCompleteButton"
+            android:id="@+id/commentRemoveButton"
             android:src="@drawable/trash"
-            android:background="#ffffff"/>
+            android:background="#10ffffff"/>
 
     </LinearLayout>
 

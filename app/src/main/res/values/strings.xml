@@ -9,4 +9,7 @@
     <string name="date">Dátum</string>
     <string name="delivieries">Szállítások</string>
     <string name="comments">Megjegyzések</string>
+    <string name="comment_hint">Megjegyzés szövege</string>
+    <string name="cancel">Mégse</string>
+    <string name="add">Hozzáad</string>
 </resources>

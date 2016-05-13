@@ -1,4 +1,4 @@
-package hu.tomkom.deliveryapp.ui;
+package hu.tomkom.deliveryapp.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;

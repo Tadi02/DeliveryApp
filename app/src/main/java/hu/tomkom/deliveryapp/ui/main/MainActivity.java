@@ -21,8 +21,8 @@ import butterknife.ButterKnife;
 import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.R;
 import hu.tomkom.deliveryapp.model.Delivery;
-import hu.tomkom.deliveryapp.ui.DeliveryListAdapter;
-import hu.tomkom.deliveryapp.ui.DeliveryListEventHandler;
+import hu.tomkom.deliveryapp.ui.adapter.DeliveryListAdapter;
+import hu.tomkom.deliveryapp.ui.adapter.DeliveryListEventHandler;
 import hu.tomkom.deliveryapp.ui.delivery.DeliveryActivity;
 import hu.tomkom.deliveryapp.ui.rent.RentActivity;
 

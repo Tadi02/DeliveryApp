@@ -2,17 +2,17 @@ package hu.tomkom.deliveryapp.model;
 
 public class Comment {
 
-    private String id;
+    private Long id;
 
     private String time;
 
     private String text;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

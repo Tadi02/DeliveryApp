@@ -23,11 +23,13 @@ public class RentPresenter extends Presenter<RentScreen> {
         Rent rent = rentInteractor.fetchRent(rentId);
         if(rent != null) {
             screen.showRentData(rent);
-            screen.showComments(rent.getComments());
+            screen.showComments(rentInteractor.fetchCommentsForRent(rentId));
         }
     }
 
-    public void addComment(Comment comment){
+    public void addComment(String text){
+        Comment comment = new Comment();
+        comment.setText(text);
         rentInteractor.addCommentForRent(comment,rentId);
         fetchData();
     }
