@@ -37,7 +37,7 @@ paths:
                 
   /delivery/{id}/done:
     post:
-      operationId: markdDeliveryDone
+      operationId: markDeliveryDone
       tags:
         - Delivery
       description: Marks the delivery with the given id done
@@ -102,7 +102,7 @@ paths:
           description: Rent id
           required: true
           type: string
-        - name: comment
+        - name: newComment
           in: body
           description: New comment
           required: true
