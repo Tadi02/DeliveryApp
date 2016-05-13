@@ -108,10 +108,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_today) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_deliveries) {
+        if (id == R.id.nav_deliveries) {
             Intent intent = new Intent(this, DeliveryActivity.class);
             startActivity(intent);
         }

@@ -109,9 +109,6 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
         if (id == R.id.nav_today) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_deliveries) {
-            Intent intent = new Intent(this, DeliveryActivity.class);
-            startActivity(intent);
         }
 
         drawer.closeDrawer(GravityCompat.START);
