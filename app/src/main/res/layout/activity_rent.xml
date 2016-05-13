@@ -9,4 +9,44 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="hu.tomkom.deliveryapp.ui.rent.RentActivity">
 
+    <TextView
+        android:id="@+id/rentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RentName"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/rentStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="READY"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/rentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rentName"
+        android:paddingTop="5dp"
+        android:text="2016.04.05 - 2016.04.06" />
+
+    <TextView
+        android:id="@+id/commentsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rentDate"
+        android:paddingTop="25dp"
+        android:textSize="15sp"
+        android:text="@string/comments" />
+
+    <ListView
+        android:id="@+id/commentList"
+        android:layout_below="@id/commentsTitle"
+        android:paddingTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
 </RelativeLayout>

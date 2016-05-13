@@ -14,7 +14,7 @@ public class DeliveryInteractor {
     @Inject
     StorageInteractor storageInteractor;
 
-    private boolean networkAvailable = false;
+    private boolean networkAvailable = true;
 
     public DeliveryInteractor() {
         DeliveryApplication.injector.inject(this);
@@ -31,7 +31,7 @@ public class DeliveryInteractor {
     }
 
     public List<Delivery> fetchDeliveriesForDate(Date date){
-        return new ArrayList<>();
+        return testList();
     }
 
     public void markDeliveryCompleted(String id){
@@ -40,6 +40,27 @@ public class DeliveryInteractor {
 
     private void saveTodaysDeliveries(List<Delivery> deliveries){
         storageInteractor.saveDeliveries(deliveries);
+    }
+
+    private List<Delivery> testList(){
+        List<Delivery> test = new ArrayList<>();
+        Delivery d = new Delivery();
+        d.setName("Cica Bt.");
+        d.setAddress("Máté utca 4.");
+        d.setPhone("+36 30 548 6684");
+        d.setCompleted(false);
+        d.setTime("12:00");
+        d.setRentId("2A");
+        test.add(d);
+        Delivery d2 = new Delivery();
+        d2.setName("Big money Kft.");
+        d2.setAddress("Kalap utca 4.");
+        d2.setPhone("+36 30 999 6684");
+        d2.setCompleted(true);
+        d2.setTime("13:00");
+        d2.setRentId("2B");
+        test.add(d2);
+        return test;
     }
 
 }

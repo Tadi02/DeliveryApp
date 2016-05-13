@@ -4,25 +4,19 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +44,7 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
     DeliveryPresenter deliveryPresenter;
 
     private Date date;
+    private DeliveryListAdapter adapter;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd");
 
     @Override
@@ -59,25 +54,8 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
         DeliveryApplication.injector.inject(this);
         ButterKnife.bind(this);
 
-        DeliveryListAdapter adapter = new DeliveryListAdapter(this, this);
+        this.adapter = new DeliveryListAdapter(this, this);
         todayList.setAdapter(adapter);
-        List<Delivery> test = new ArrayList<>();
-        Delivery d = new Delivery();
-        d.setName("Cica Bt.");
-        d.setAddress("Máté utca 4.");
-        d.setPhone("+36 30 548 6684");
-        d.setCompleted(false);
-        d.setTime("12:00");
-        test.add(d);
-        Delivery d2 = new Delivery();
-        d2.setName("Big money Kft.");
-        d2.setAddress("Kalap utca 4.");
-        d2.setPhone("+36 30 999 6684");
-        d2.setCompleted(true);
-        d2.setTime("13:00");
-        test.add(d2);
-        adapter.setItems(test);
-
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -106,7 +84,7 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
 
     @Override
     public void showDeliveries(List<Delivery> deliveries) {
-
+        adapter.setItems(deliveries);
     }
 
     @Override
