@@ -1,39 +1,46 @@
 package hu.tomkom.deliveryapp.interactor.rent;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
+
+import hu.tomkom.deliveryapp.DeliveryApplication;
+import hu.tomkom.deliveryapp.interactor.rent.event.FetchRentEvent;
 import hu.tomkom.deliveryapp.model.Comment;
-import hu.tomkom.deliveryapp.model.Rent;
 import hu.tomkom.deliveryapp.model.RentStatus;
+import hu.tomkom.deliveryapp.network.api.RentApi;
+import hu.tomkom.deliveryapp.network.model.Rent;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class RentInteractor {
 
-    public Rent fetchRent(String id){
-        Rent rent = new Rent();
-        rent.setName("Teszt Bt");
-        rent.setStatus(RentStatus.READY);
-        rent.setStart("2015-05-07");
-        rent.setEnd("2015-08-17");
-        rent.setComments(new ArrayList<Comment>());
-        return rent;
+    @Inject
+    RentApi rentApi;
+
+    public RentInteractor() {
+        DeliveryApplication.injector.inject(this);
     }
 
-    public List<Comment> fetchCommentsForRent(String id){
-        List<Comment> comments = new ArrayList<>();
-        Comment comment1 = new Comment();
-        Comment comment2 = new Comment();
-        comment1.setText("Valamit elfelejtettünk.");
-        comment2.setText("Erre bizony emlékezni kell");
-        comment1.setTime("2014.02.14 11:00");
-        comment2.setTime("2014.02.14 14:00");
-        comment1.setId(1L);
-        comment2.setId(2L);
-        comments.add(comment1);
-        comments.add(comment2);
-        return comments;
+    public void fetchRent(String id){
+        Call<Rent> deliveryCall = rentApi.fetchRent(id);
+        FetchRentEvent event = new FetchRentEvent();
+        try {
+            Response<Rent> response = deliveryCall.execute();
+            if (response.code() != 200) {
+                throw new Exception("Result code is not 200");
+            }
+            event.setSuccess(true);
+            event.setRent(response.body());
+            EventBus.getDefault().post(event);
+        } catch (Exception e) {
+            EventBus.getDefault().post(event);
+        }
     }
 
     public void addCommentForRent(Comment comment, String id){
@@ -42,6 +49,18 @@ public class RentInteractor {
 
     public void removeCommentFromRent(String commentId, String rentId){
 
+    }
+
+    public hu.tomkom.deliveryapp.model.Rent parseRent(Rent rent){
+        return new hu.tomkom.deliveryapp.model.Rent(rent.getName(), rent.getStart(), rent.getEnd(), RentStatus.valueOf(rent.getStatus()), parseComments(rent.getComments()));
+    }
+
+    public List<Comment> parseComments(List<hu.tomkom.deliveryapp.network.model.Comment> comments){
+        List<Comment> result = new ArrayList<>();
+        for(hu.tomkom.deliveryapp.network.model.Comment comment : comments){
+            result.add(new Comment(Long.valueOf(comment.getId()), comment.getTime(), comment.getText()));
+        }
+        return result;
     }
 
 }

@@ -14,6 +14,17 @@ public class Rent {
 
     private List<Comment> comments;
 
+    public Rent() {
+    }
+
+    public Rent(String name, String start, String end, RentStatus status, List<Comment> comments) {
+        this.name = name;
+        this.start = start;
+        this.end = end;
+        this.status = status;
+        this.comments = comments;
+    }
+
     public String getName() {
         return name;
     }

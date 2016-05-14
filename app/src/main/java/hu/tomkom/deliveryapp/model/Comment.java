@@ -8,6 +8,15 @@ public class Comment {
 
     private String text;
 
+    public Comment() {
+    }
+
+    public Comment(Long id, String time, String text) {
+        this.id = id;
+        this.time = time;
+        this.text = text;
+    }
+
     public Long getId() {
         return id;
     }
