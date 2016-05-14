@@ -2,11 +2,12 @@ package hu.tomkom.deliveryapp.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -68,8 +69,12 @@ public class DeliveryListAdapter extends BaseAdapter {
 
         if(delivery.isCompleted()){
             holder.completeButton.setEnabled(false);
+            holder.completeButton.setAlpha(0.3F);
+            holder.completeButton.setColorFilter(Color.GREEN);
         }else{
             holder.completeButton.setEnabled(true);
+            holder.completeButton.setAlpha(1.0F);
+            holder.completeButton.setColorFilter(Color.BLACK);
             holder.completeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -93,7 +98,7 @@ public class DeliveryListAdapter extends BaseAdapter {
         @BindView(R.id.itemAddress) TextView address;
         @BindView(R.id.itemContact) TextView contact;
         @BindView(R.id.itemTime) TextView time;
-        @BindView(R.id.itemCompleteButton) Button completeButton;
+        @BindView(R.id.itemCompleteButton) ImageButton completeButton;
 
         public ViewHolder(View view){
             ButterKnife.bind(this, view);
