@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.interactor.delivery.DeliveryInteractor;
+import hu.tomkom.deliveryapp.interactor.delivery.event.DeliveryMarkedEvent;
 import hu.tomkom.deliveryapp.interactor.delivery.event.FetchDeliveriesEvent;
 import hu.tomkom.deliveryapp.model.Delivery;
 import hu.tomkom.deliveryapp.ui.Presenter;
@@ -49,6 +50,14 @@ public class DeliveryPresenter extends Presenter<DeliveryScreen> {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(final DeliveryMarkedEvent event) {
+        if(event.isSuccess() && event.getSource().equals("DELIVERY")){
+            fetchData();
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(final FetchDeliveriesEvent event) {
         if(event.isSuccess() && !event.isTodayRequest()){
             List<Delivery> deliveries = deliveryInteractor.parseDeliveries(event.getDeliveries());
@@ -57,8 +66,13 @@ public class DeliveryPresenter extends Presenter<DeliveryScreen> {
         }
     }
 
-    public void markDeliveryCompleted(String id){
-        deliveryInteractor.markDeliveryCompleted(id);
+    public void markDeliveryCompleted(final String id){
+        networkExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                deliveryInteractor.markDeliveryCompleted(id, "DELIVERY");
+            }
+        });
     }
 
     public void listItemClicked(String id){

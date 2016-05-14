@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.interactor.delivery.DeliveryInteractor;
 import hu.tomkom.deliveryapp.interactor.delivery.StorageInteractor;
+import hu.tomkom.deliveryapp.interactor.delivery.event.DeliveryMarkedEvent;
 import hu.tomkom.deliveryapp.interactor.delivery.event.FetchDeliveriesEvent;
 import hu.tomkom.deliveryapp.model.Delivery;
 import hu.tomkom.deliveryapp.ui.Presenter;
@@ -67,9 +68,20 @@ public class MainPresenter extends Presenter<MainScreen> {
         }
     }
 
-    public void markDeliveryCompleted(String id){
-        deliveryInteractor.markDeliveryCompleted(id);
-        fetchData();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(final DeliveryMarkedEvent event) {
+        if(event.isSuccess() && event.getSource().equals("MAIN")){
+            fetchData();
+        }
+    }
+
+    public void markDeliveryCompleted(final String id){
+        networkExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                deliveryInteractor.markDeliveryCompleted(id, "MAIN");
+            }
+        });
     }
 
     public void listItemClicked(String id){

@@ -12,6 +12,7 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 
 import hu.tomkom.deliveryapp.DeliveryApplication;
+import hu.tomkom.deliveryapp.interactor.delivery.event.DeliveryMarkedEvent;
 import hu.tomkom.deliveryapp.interactor.delivery.event.FetchDeliveriesEvent;
 import hu.tomkom.deliveryapp.model.Delivery;
 import hu.tomkom.deliveryapp.model.DeliveryType;
@@ -55,8 +56,20 @@ public class DeliveryInteractor {
         }
     }
 
-    public void markDeliveryCompleted(String id){
-
+    public void markDeliveryCompleted(String id, String source){
+        Call<Void> call = deliveryApi.markDeliveryDone(id);
+        DeliveryMarkedEvent event = new DeliveryMarkedEvent();
+        event.setSource(source);
+        try {
+            Response<Void> response = call.execute();
+            if (response.code() != 200) {
+                throw new Exception("Result code is not 200");
+            }
+            event.setSuccess(true);
+            EventBus.getDefault().post(event);
+        } catch (Exception e) {
+            EventBus.getDefault().post(event);
+        }
     }
 
     public List<Delivery> parseDeliveries(List<hu.tomkom.deliveryapp.network.model.Delivery> deliveries){
