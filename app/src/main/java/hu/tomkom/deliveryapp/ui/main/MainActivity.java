@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
     @Override
     public void showTodaysDeliveries(List<Delivery> deliveries) {
         adapter.setItems(deliveries);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

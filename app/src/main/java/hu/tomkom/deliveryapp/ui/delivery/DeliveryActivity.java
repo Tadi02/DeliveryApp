@@ -85,6 +85,7 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
     @Override
     public void showDeliveries(List<Delivery> deliveries) {
         adapter.setItems(deliveries);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -165,7 +166,9 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             DeliveryActivity activity = (DeliveryActivity)this.getActivity();
-            activity.dateChanged(new Date(year,month,day));
+            Calendar result = Calendar.getInstance();
+            result.set(year,month,day);
+            activity.dateChanged(result.getTime());
         }
     }
 
