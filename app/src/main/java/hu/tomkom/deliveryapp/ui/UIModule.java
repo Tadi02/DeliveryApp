@@ -2,6 +2,9 @@ package hu.tomkom.deliveryapp.ui;
 
 import android.content.Context;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -35,5 +38,11 @@ public class UIModule {
     @Singleton
     public RentPresenter provideRentPresenter(){
         return new RentPresenter();
+    }
+
+    @Provides
+    @Singleton
+    public Executor provideNetworkExecutor() {
+        return Executors.newFixedThreadPool(1);
     }
 }

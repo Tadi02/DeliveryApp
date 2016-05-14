@@ -18,3 +18,7 @@
 
 # Ensures entities remain un-obfuscated so table and columns are named correctly
 -keep class hu.tomkom.deliveryapp.model.** { *; }
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
