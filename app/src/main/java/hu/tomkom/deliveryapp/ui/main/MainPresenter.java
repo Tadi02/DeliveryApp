@@ -4,6 +4,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
@@ -52,7 +53,7 @@ public class MainPresenter extends Presenter<MainScreen> {
             });
         }else{
             List<Delivery> deliveries = storageInteractor.fetchDeliveries();
-            screen.showTodaysDeliveries(deliveries);
+            screen.showTodaysDeliveries(filterDeliveries(deliveries));
             calculateNumbers(deliveries);
         }
 
@@ -62,7 +63,7 @@ public class MainPresenter extends Presenter<MainScreen> {
     public void onEventMainThread(final FetchDeliveriesEvent event) {
         if(event.isSuccess() && event.isTodayRequest()){
             List<Delivery> deliveries = deliveryInteractor.parseDeliveries(event.getDeliveries());
-            screen.showTodaysDeliveries(deliveries);
+            screen.showTodaysDeliveries(filterDeliveries(deliveries));
             saveTodaysDeliveries(deliveries);
             calculateNumbers(deliveries);
         }
@@ -86,6 +87,16 @@ public class MainPresenter extends Presenter<MainScreen> {
 
     public void listItemClicked(String id){
         screen.navigateToDetails(id);
+    }
+
+    private List<Delivery> filterDeliveries(List<Delivery> deliveries){
+        List<Delivery> filtered = new ArrayList<>();
+        for(Delivery delivery : deliveries){
+            if(!delivery.isCompleted()){
+                filtered.add(delivery);
+            }
+        }
+        return filtered;
     }
 
     private void calculateNumbers(List<Delivery> deliveries){

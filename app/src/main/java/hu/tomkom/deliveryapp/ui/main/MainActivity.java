@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     @Override
