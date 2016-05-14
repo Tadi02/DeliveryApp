@@ -89,6 +89,7 @@ public class RentActivity extends AppCompatActivity implements RentScreen, Comme
     @Override
     public void showComments(List<Comment> comments) {
         adapter.setItems(comments);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

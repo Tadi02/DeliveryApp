@@ -12,7 +12,10 @@ import javax.inject.Inject;
 import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.interactor.delivery.event.FetchDeliveriesEvent;
 import hu.tomkom.deliveryapp.interactor.rent.RentInteractor;
+import hu.tomkom.deliveryapp.interactor.rent.event.AddCommentEvent;
 import hu.tomkom.deliveryapp.interactor.rent.event.FetchRentEvent;
+import hu.tomkom.deliveryapp.interactor.rent.event.RemoveCommentEvent;
+import hu.tomkom.deliveryapp.interactor.rent.event.RentChangeEvent;
 import hu.tomkom.deliveryapp.model.Comment;
 import hu.tomkom.deliveryapp.model.Delivery;
 import hu.tomkom.deliveryapp.model.Rent;
@@ -33,6 +36,10 @@ public class RentPresenter extends Presenter<RentScreen> {
         EventBus.getDefault().register(this);
     }
 
+    public void setRentId(String rentId) {
+        this.rentId = rentId;
+    }
+
     public void fetchData(){
         networkExecutor.execute(new Runnable() {
             @Override
@@ -42,28 +49,46 @@ public class RentPresenter extends Presenter<RentScreen> {
         });
     }
 
+    public void addComment(String text){
+        final Comment comment = new Comment();
+        comment.setText(text);
+        networkExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                rentInteractor.addCommentForRent(comment,rentId);
+            }
+        });
+    }
+
+    public void removeComment(final String commentId){
+        networkExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                rentInteractor.removeCommentFromRent(commentId,rentId);
+            }
+        });
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(final FetchRentEvent event) {
+        displayRentChanges(event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAddCommentEvent(final AddCommentEvent event) {
+        displayRentChanges(event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRemoveCommentEvent(final RemoveCommentEvent event) {
+        displayRentChanges(event);
+    }
+
+    private void displayRentChanges(RentChangeEvent event){
         if(event.isSuccess()){
             Rent rent = rentInteractor.parseRent(event.getRent());
             screen.showRentData(rent);
             screen.showComments(rent.getComments());
         }
-    }
-
-    public void addComment(String text){
-        Comment comment = new Comment();
-        comment.setText(text);
-        rentInteractor.addCommentForRent(comment,rentId);
-        fetchData();
-    }
-
-    public void removeComment(String commentId){
-        rentInteractor.removeCommentFromRent(commentId,rentId);
-        fetchData();
-    }
-
-    public void setRentId(String rentId) {
-        this.rentId = rentId;
     }
 }

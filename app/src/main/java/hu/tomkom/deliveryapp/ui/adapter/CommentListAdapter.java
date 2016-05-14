@@ -49,7 +49,7 @@ public class CommentListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         ViewHolder holder;
         if (view != null) {
             holder = (ViewHolder) view.getTag();
@@ -63,6 +63,13 @@ public class CommentListAdapter extends BaseAdapter {
 
         holder.text.setText(comment.getText());
         holder.date.setText(comment.getTime());
+
+        holder.removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eventHandler.commentRemoveClicked(String.valueOf(getItem(position).getId()));
+            }
+        });
 
         return view;
     }

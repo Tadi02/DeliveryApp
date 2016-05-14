@@ -11,15 +11,21 @@ import com.google.gson.annotations.SerializedName;
 
 @ApiModel(description = "")
 public class NewComment   {
-  
+
   @SerializedName("time")
   private String time = null;
   
   @SerializedName("text")
   private String text = null;
-  
 
-  
+  public NewComment() {
+  }
+
+  public NewComment(String time, String text) {
+    this.time = time;
+    this.text = text;
+  }
+
   /**
    **/
   @ApiModelProperty(value = "")
