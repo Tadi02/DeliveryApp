@@ -8,14 +8,14 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-
-
-
 @ApiModel(description = "")
 public class Rent   {
   
   @SerializedName("id")
   private String id = null;
+
+  @SerializedName("name")
+  private String name = null;
   
   @SerializedName("start")
   private String start = null;
@@ -41,7 +41,17 @@ public class Rent   {
     this.id = id;
   }
 
-  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
   /**
    **/
   @ApiModelProperty(value = "")
@@ -97,6 +107,7 @@ public class Rent   {
     }
     Rent rent = (Rent) o;
     return Objects.equals(id, rent.id) &&
+        Objects.equals(name, rent.name) &&
         Objects.equals(start, rent.start) &&
         Objects.equals(end, rent.end) &&
         Objects.equals(status, rent.status) &&
@@ -105,7 +116,7 @@ public class Rent   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, start, end, status, comments);
+    return Objects.hash(id, name, start, end, status, comments);
   }
 
   @Override
@@ -114,6 +125,7 @@ public class Rent   {
     sb.append("class Rent {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    start: ").append(toIndentedString(start)).append("\n");
     sb.append("    end: ").append(toIndentedString(end)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");

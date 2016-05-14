@@ -199,6 +199,8 @@ definitions:
     properties:
       "id":
         type: string
+      "name":
+        type: string
       "start":
         type: string
       "end":
