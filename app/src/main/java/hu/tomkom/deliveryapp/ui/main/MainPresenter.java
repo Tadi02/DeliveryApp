@@ -18,6 +18,8 @@ import hu.tomkom.deliveryapp.interactor.delivery.StorageInteractor;
 import hu.tomkom.deliveryapp.interactor.delivery.event.DeliveryMarkedEvent;
 import hu.tomkom.deliveryapp.interactor.delivery.event.FetchDeliveriesEvent;
 import hu.tomkom.deliveryapp.model.Delivery;
+import hu.tomkom.deliveryapp.network.NetworkStateHandler;
+import hu.tomkom.deliveryapp.network.event.NetworkStateChangedEvent;
 import hu.tomkom.deliveryapp.ui.Presenter;
 
 public class MainPresenter extends Presenter<MainScreen> {
@@ -31,6 +33,9 @@ public class MainPresenter extends Presenter<MainScreen> {
     @Inject
     StorageInteractor storageInteractor;
 
+    @Inject
+    NetworkStateHandler networkStateHandler;
+
     private boolean networkAvailable = true;
 
     public MainPresenter() {
@@ -41,27 +46,29 @@ public class MainPresenter extends Presenter<MainScreen> {
     @Override
     public void attachScreen(MainScreen screen) {
         super.attachScreen(screen);
+        networkAvailable = networkStateHandler.isNetworkAvailable();
     }
 
-    public void fetchData(){
-        if(networkAvailable){
+    public void fetchData() {
+        if (networkAvailable) {
             networkExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     deliveryInteractor.fetchTodaysDeliveries();
                 }
             });
-        }else{
+        } else {
             List<Delivery> deliveries = storageInteractor.fetchDeliveries();
             screen.showTodaysDeliveries(filterDeliveries(deliveries));
             calculateNumbers(deliveries);
+            screen.showNetworkWarning();
         }
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(final FetchDeliveriesEvent event) {
-        if(event.isSuccess() && event.isTodayRequest()){
+        if (event.isSuccess() && event.isTodayRequest()) {
             List<Delivery> deliveries = deliveryInteractor.parseDeliveries(event.getDeliveries());
             screen.showTodaysDeliveries(filterDeliveries(deliveries));
             saveTodaysDeliveries(deliveries);
@@ -71,48 +78,64 @@ public class MainPresenter extends Presenter<MainScreen> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(final DeliveryMarkedEvent event) {
-        if(event.isSuccess() && event.getSource().equals("MAIN")){
+        if (event.isSuccess() && event.getSource().equals("MAIN")) {
             fetchData();
         }
     }
 
-    public void markDeliveryCompleted(final String id){
-        networkExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                deliveryInteractor.markDeliveryCompleted(id, "MAIN");
-            }
-        });
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(final NetworkStateChangedEvent event) {
+        this.networkAvailable = event.isNetworkAvailable();
+        if (screen != null) {
+            fetchData();
+        }
     }
 
-    public void listItemClicked(String id){
-        screen.navigateToDetails(id);
+    public void markDeliveryCompleted(final String id) {
+        if (networkAvailable) {
+            networkExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    deliveryInteractor.markDeliveryCompleted(id, "MAIN");
+                }
+            });
+        } else {
+            screen.showNetworkWarning();
+        }
     }
 
-    private List<Delivery> filterDeliveries(List<Delivery> deliveries){
+    public void listItemClicked(String id) {
+        if (networkAvailable) {
+            screen.navigateToDetails(id);
+        } else {
+            screen.showNetworkWarning();
+        }
+    }
+
+    private List<Delivery> filterDeliveries(List<Delivery> deliveries) {
         List<Delivery> filtered = new ArrayList<>();
-        for(Delivery delivery : deliveries){
-            if(!delivery.isCompleted()){
+        for (Delivery delivery : deliveries) {
+            if (!delivery.isCompleted()) {
                 filtered.add(delivery);
             }
         }
         return filtered;
     }
 
-    private void calculateNumbers(List<Delivery> deliveries){
+    private void calculateNumbers(List<Delivery> deliveries) {
         int completed = 0;
         int remaining = 0;
-        for(Delivery delivery : deliveries){
-            if(delivery.isCompleted()){
+        for (Delivery delivery : deliveries) {
+            if (delivery.isCompleted()) {
                 completed++;
-            }else{
+            } else {
                 remaining++;
             }
         }
-        screen.setDeliveryNumbers(completed,remaining);
+        screen.setDeliveryNumbers(completed, remaining);
     }
 
-    private void saveTodaysDeliveries(List<Delivery> deliveries){
+    private void saveTodaysDeliveries(List<Delivery> deliveries) {
         storageInteractor.saveDeliveries(deliveries);
     }
 

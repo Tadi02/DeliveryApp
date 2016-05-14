@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 import hu.tomkom.deliveryapp.DeliveryApplication;
 import hu.tomkom.deliveryapp.R;
 import hu.tomkom.deliveryapp.model.Delivery;
+import hu.tomkom.deliveryapp.network.NetworkStateHandler;
 import hu.tomkom.deliveryapp.ui.adapter.DeliveryListAdapter;
 import hu.tomkom.deliveryapp.ui.adapter.DeliveryListEventHandler;
 import hu.tomkom.deliveryapp.ui.delivery.DeliveryActivity;
@@ -38,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
     @Inject
     MainPresenter mainPresenter;
 
+    @Inject
+    NetworkStateHandler networkStateHandler;
+
     private DeliveryListAdapter adapter;
 
     @Override
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
         setContentView(R.layout.activity_main);
         DeliveryApplication.injector.inject(this);
         ButterKnife.bind(this);
+
         adapter = new DeliveryListAdapter(this, this);
         todayList.setAdapter(adapter);
 
@@ -65,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
     @Override
     protected void onResume() {
         super.onResume();
+        networkStateHandler.refreshState(this);
         mainPresenter.fetchData();
     }
 
@@ -94,6 +101,11 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
     }
 
     @Override
+    public void showNetworkWarning() {
+        Toast.makeText(getApplicationContext(), R.string.no_network, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -109,8 +121,12 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
         int id = item.getItemId();
 
         if (id == R.id.nav_deliveries) {
-            Intent intent = new Intent(this, DeliveryActivity.class);
-            startActivity(intent);
+            if(networkStateHandler.isNetworkAvailable()) {
+                Intent intent = new Intent(this, DeliveryActivity.class);
+                startActivity(intent);
+            }else{
+                showNetworkWarning();
+            }
         }
 
         drawer.closeDrawer(GravityCompat.START);

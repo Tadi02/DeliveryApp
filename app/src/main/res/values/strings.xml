@@ -12,4 +12,5 @@
     <string name="comment_hint">Megjegyzés szövege</string>
     <string name="cancel">Mégse</string>
     <string name="add">Hozzáad</string>
+    <string name="no_network">Hálózat nem elérhető</string>
 </resources>

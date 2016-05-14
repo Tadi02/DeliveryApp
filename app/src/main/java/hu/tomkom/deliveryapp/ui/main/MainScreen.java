@@ -12,4 +12,6 @@ public interface MainScreen {
 
     void navigateToDetails(String id);
 
+    void showNetworkWarning();
+
 }

@@ -33,4 +33,10 @@ public class NetworkModule {
         return retrofit.create(RentApi.class);
     }
 
+    @Provides
+    @Singleton
+    public NetworkStateHandler provideNetworkStateHandler() {
+        return new NetworkStateHandler();
+    }
+
 }
