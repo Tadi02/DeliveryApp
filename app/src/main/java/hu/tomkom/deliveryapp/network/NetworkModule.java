@@ -4,7 +4,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import hu.tomkom.deliveryapp.network.api.CommentApi;
 import hu.tomkom.deliveryapp.network.api.DeliveryApi;
 import hu.tomkom.deliveryapp.network.api.RentApi;
 import retrofit2.Retrofit;
@@ -19,12 +18,6 @@ public class NetworkModule {
     @Singleton
     public DeliveryApi provideDeliveryApi(){
         return retrofit.create(DeliveryApi.class);
-    }
-
-    @Provides
-    @Singleton
-    public CommentApi provideCommentApi(){
-        return retrofit.create(CommentApi.class);
     }
 
     @Provides
