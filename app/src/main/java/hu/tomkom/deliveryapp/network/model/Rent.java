@@ -28,8 +28,18 @@ public class Rent   {
   
   @SerializedName("comments")
   private List<Comment> comments = new ArrayList<Comment>();
-  
 
+  public Rent() {
+  }
+
+  public Rent(String id, String name, String start, String end, String status, List<Comment> comments) {
+    this.comments = comments;
+    this.name = name;
+    this.end = end;
+    this.id = id;
+    this.start = start;
+    this.status = status;
+  }
   
   /**
    **/

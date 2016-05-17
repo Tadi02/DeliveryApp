@@ -35,8 +35,20 @@ public class Delivery   {
   
   @SerializedName("rentId")
   private String rentId = null;
-  
 
+  public Delivery() {
+  }
+
+  public Delivery(String id, String name, String rentId, String time, String address, String phone, Boolean completed, String type) {
+    this.address = address;
+    this.completed = completed;
+    this.id = id;
+    this.name = name;
+    this.phone = phone;
+    this.rentId = rentId;
+    this.time = time;
+    this.type = type;
+  }
   
   /**
    **/
