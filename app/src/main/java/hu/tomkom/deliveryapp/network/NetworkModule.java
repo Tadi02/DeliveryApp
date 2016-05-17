@@ -29,7 +29,7 @@ public class NetworkModule {
     @Provides
     @Singleton
     public NetworkStateHandler provideNetworkStateHandler() {
-        return new NetworkStateHandler();
+        return new NetworkStateHandlerImpl();
     }
 
 }

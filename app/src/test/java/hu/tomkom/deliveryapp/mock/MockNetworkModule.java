@@ -26,7 +26,7 @@ public class MockNetworkModule {
     @Provides
     @Singleton
     public NetworkStateHandler provideNetworkStateHandler() {
-        return new NetworkStateHandler();
+        return new MockNetworkStateHandler();
     }
 
 }
