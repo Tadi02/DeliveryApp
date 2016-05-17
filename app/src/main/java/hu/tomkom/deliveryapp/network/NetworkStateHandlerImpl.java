@@ -1,6 +1,8 @@
 package hu.tomkom.deliveryapp.network;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -8,7 +10,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import hu.tomkom.deliveryapp.network.event.NetworkStateChangedEvent;
 
-public class NetworkStateHandlerImpl extends NetworkStateHandler{
+public class NetworkStateHandlerImpl extends BroadcastReceiver implements NetworkStateHandler{
 
     private boolean networkAvailable = true;
 
@@ -23,6 +25,11 @@ public class NetworkStateHandlerImpl extends NetworkStateHandler{
         NetworkStateChangedEvent event = new NetworkStateChangedEvent();
         event.setNetworkAvailable(networkAvailable);
         EventBus.getDefault().post(event);
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        refreshState(context);
     }
 
     public boolean isNetworkAvailable() {

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import hu.tomkom.deliveryapp.network.NetworkStateHandler;
 
-public class MockNetworkStateHandler extends NetworkStateHandler {
+public class MockNetworkStateHandler implements NetworkStateHandler {
 
     @Override
     public void refreshState(Context context) {

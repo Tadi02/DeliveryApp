@@ -1,5 +1,6 @@
 package hu.tomkom.deliveryapp.test;
 
+import org.greenrobot.eventbus.EventBus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import hu.tomkom.deliveryapp.util.RobolectricDaggerTestRunner;
 
 import static hu.tomkom.deliveryapp.TestHelper.setTestInjector;
 import static junit.framework.Assert.*;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -45,6 +47,7 @@ public class RentTest {
     @Test
     public void getRent(){
         rentPresenter.setRentId(MockRentApi.getValidRentId());
+
         rentPresenter.fetchData();
 
         verify(rentScreen).showRentData(rentCaptor.capture());
@@ -54,9 +57,50 @@ public class RentTest {
         assertNotNull(listCaptor.getValue());
     }
 
+    @Test
+    public void addComment(){
+        String commentText = "This is a test comment.";
+        rentPresenter.setRentId(MockRentApi.getValidRentId());
+
+        rentPresenter.addComment(commentText);
+
+        verify(rentScreen).showComments(listCaptor.capture());
+        assertTrue(checkIfCommentPresent(listCaptor.getValue(),commentText));
+    }
+
+    @Test
+    public void removeComment(){
+        String commentText = "This is a test comment.";
+        rentPresenter.setRentId(MockRentApi.getValidRentId());
+        rentPresenter.addComment(commentText);
+        verify(rentScreen).showComments(listCaptor.capture());
+
+        rentPresenter.removeComment(getCommentId(listCaptor.getValue(), commentText));
+
+        verify(rentScreen, atLeastOnce()).showComments(listCaptor.capture());
+        assertFalse(checkIfCommentPresent(listCaptor.getValue(),commentText));
+    }
+
     @After
     public void tearDown() {
         rentPresenter.detachScreen();
     }
 
+    private boolean checkIfCommentPresent(List<Comment> comments, String comment){
+        for(Comment c: comments){
+            if(c.getText().equals(comment)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String getCommentId(List<Comment> comments, String comment){
+        for(Comment c: comments){
+            if(c.getText().equals(comment)){
+                return String.valueOf(c.getId());
+            }
+        }
+        return null;
+    }
 }

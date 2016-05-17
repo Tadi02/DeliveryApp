@@ -19,9 +19,11 @@ import retrofit2.http.Path;
 public class MockRentApi implements RentApi {
 
     List<Rent> rents = new ArrayList<>();
+    private static Rent validRent;
 
     public MockRentApi() {
-        rents.add(new Rent("1", "Cica Bt.", "2016-05-04", "2016-05-11", "READY", new ArrayList<Comment>()));
+        validRent = new Rent("1", "Cica Bt.", "2016-05-04", "2016-05-11", "READY", new ArrayList<Comment>());
+        rents.add(validRent);
         rents.add(new Rent("2", "Kutya Kft.", "2016-05-05", "2016-05-06", "READY", new ArrayList<Comment>()));
         rents.add(new Rent("3", "Macska Bt.", "2016-05-04", "2016-05-08", "READY", new ArrayList<Comment>()));
         rents.add(new Rent("4", "Laci és társa", "2016-05-15", "2016-05-21", "READY", new ArrayList<Comment>()));
@@ -30,6 +32,7 @@ public class MockRentApi implements RentApi {
     }
 
     public static String getValidRentId(){
+        validRent = new Rent("1", "Cica Bt.", "2016-05-04", "2016-05-11", "READY", new ArrayList<Comment>());
         return "1";
     }
 

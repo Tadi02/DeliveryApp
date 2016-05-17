@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name=".network.NetworkStateHandler" >
+        <receiver android:name=".network.NetworkStateHandlerImpl" >
             <intent-filter>
               <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
