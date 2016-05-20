@@ -46,6 +46,9 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="hu.tomkom.deliveryapp.model" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f3f9b096add4c9e8fa2195b1afba846e2e91fa9d" />
     </application>
 
 </manifest>
