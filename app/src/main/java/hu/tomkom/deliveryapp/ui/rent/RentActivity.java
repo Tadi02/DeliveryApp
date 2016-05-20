@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,6 +43,7 @@ public class RentActivity extends AppCompatActivity implements RentScreen, Comme
     @BindView(R.id.addCommentButton) FloatingActionButton addCommentButton;
 
     private CommentListAdapter adapter;
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,9 @@ public class RentActivity extends AppCompatActivity implements RentScreen, Comme
                 newFragment.show(getSupportFragmentManager(), "addComment");
             }
         });
+
+        DeliveryApplication application = (DeliveryApplication) getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
     @Override
@@ -69,6 +76,8 @@ public class RentActivity extends AppCompatActivity implements RentScreen, Comme
     @Override
     protected void onResume() {
         super.onResume();
+        mTracker.setScreenName("Rent");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         rentPresenter.fetchData();
     }
 
@@ -95,10 +104,18 @@ public class RentActivity extends AppCompatActivity implements RentScreen, Comme
     @Override
     public void commentRemoveClicked(String id) {
         rentPresenter.removeComment(id);
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Comment")
+                .setAction("Removed")
+                .build());
     }
 
     public void commentAdded(String text){
         rentPresenter.addComment(text);
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Comment")
+                .setAction("Added")
+                .build());
     }
 
 

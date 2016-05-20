@@ -16,6 +16,9 @@ import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.ListView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,6 +46,7 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
     @Inject
     DeliveryPresenter deliveryPresenter;
 
+    private Tracker mTracker;
     private Date date;
     private DeliveryListAdapter adapter;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd");
@@ -62,6 +66,9 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        DeliveryApplication application = (DeliveryApplication) getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
     @Override
@@ -73,6 +80,8 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
     @Override
     protected void onResume() {
         super.onResume();
+        mTracker.setScreenName("Delivery");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         deliveryPresenter.fetchData();
     }
 
@@ -150,6 +159,10 @@ public class DeliveryActivity extends AppCompatActivity implements DeliveryScree
     @Override
     public void butonPressed(String id) {
         deliveryPresenter.markDeliveryCompleted(id);
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Delivery")
+                .setAction("Completed")
+                .build());
     }
 
     public static class DatePickerFragment extends DialogFragment

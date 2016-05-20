@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "300249695014",
+    "project_id": "szallito-app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300249695014:android:746cb83654488c4b",
+        "android_client_info": {
+          "package_name": "hu.tomkom.deliveryapp.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALQLjERiApqvtOgJOQWumcsCnO7M388gI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-416735-12"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

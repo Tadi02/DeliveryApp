@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
     NetworkStateHandler networkStateHandler;
 
     private DeliveryListAdapter adapter;
+    private Tracker mTracker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        DeliveryApplication application = (DeliveryApplication) getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
     @Override
@@ -71,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
     @Override
     protected void onResume() {
         super.onResume();
+        mTracker.setScreenName("Main");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         networkStateHandler.refreshState(this);
         mainPresenter.fetchData();
     }
@@ -140,6 +150,11 @@ public class MainActivity extends AppCompatActivity implements MainScreen, Deliv
 
     @Override
     public void butonPressed(String id) {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Delivery")
+                .setAction("Completed")
+                .build());
+
         mainPresenter.markDeliveryCompleted(id);
     }
 }
